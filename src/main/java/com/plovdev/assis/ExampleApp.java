@@ -13,6 +13,7 @@ public class ExampleApp implements AutoCloseable {
     private static final Logger log = LoggerFactory.getLogger(ExampleApp.class);
     private final SimpleTelegramClient client;
     private static final List<String> blackList = List.of("1168349571");
+    private static final List<String> whiteList = List.of("7425474938");
 
     /**
      * Admin user id, used by the stop command example
@@ -84,7 +85,9 @@ public class ExampleApp implements AutoCloseable {
 
         String chatIdStr = String.valueOf(chatId);
         if (!chatIdStr.startsWith("-100") && !blackList.contains(chatIdStr)) {
-            Sender.send(AIRequester.request(text, chatId), chatId);
+            if (whiteList.contains(chatIdStr)) {
+                Sender.send(AIRequester.request(text, chatId), chatId);
+            }
         }
     }
 
